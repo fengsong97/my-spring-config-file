@@ -1,0 +1,69 @@
+Started by user fengsong97
+[Pipeline] node
+Running on slave-python in /home/jenkins/workspace/pro-service-finance-core
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (push docker)
+[Pipeline] sh
+[pro-service-finance-core] Running shell script
++ sudo docker tag harbor.aishuaiche.com/shuaiche/service-finance-core:1.0.1-qa harbor.aishuaiche.com/shuaiche/service-finance-core:1.3.55-prod
+[Pipeline] sh
+[pro-service-finance-core] Running shell script
++ sudo docker push harbor.aishuaiche.com/shuaiche/service-finance-core:1.3.55-prod
+The push refers to a repository [harbor.aishuaiche.com/shuaiche/service-finance-core]
+9f8a0c65d576: Preparing
+aabc9c8d99e8: Preparing
+73ad47d4bc12: Preparing
+c22c27816361: Preparing
+04dba64afa87: Preparing
+500ca2ff7d52: Preparing
+782d5215f910: Preparing
+0eb22bfb707d: Preparing
+a2ae92ffcd29: Preparing
+782d5215f910: Waiting
+0eb22bfb707d: Waiting
+a2ae92ffcd29: Waiting
+500ca2ff7d52: Waiting
+9f8a0c65d576: Layer already exists
+aabc9c8d99e8: Layer already exists
+c22c27816361: Layer already exists
+500ca2ff7d52: Layer already exists
+782d5215f910: Layer already exists
+04dba64afa87: Layer already exists
+73ad47d4bc12: Layer already exists
+a2ae92ffcd29: Layer already exists
+0eb22bfb707d: Layer already exists
+1.3.55-prod: digest: sha256:24505d48e6f35305ca00746e4ff7b641e3bd676568fb8661e22eebd2f666451c size: 2206
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (blue-green)
+[Pipeline] sh
+[pro-service-finance-core] Running shell script
++ python /home/jenkins/script/dev/service-finance-core.py service-finance-core harbor.aishuaiche.com/shuaiche/service-finance-core:1.3.55-prod prod service-finance-core.local master2g3.cs-cn-beijing.aliyun.com:20021 1.3.55 update (5|6) 2
+202
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (check_deploy)
+[Pipeline] sh
+[pro-service-finance-core] Running shell script
++ python /home/jenkins/script/dev/check_status.py master2g3.cs-cn-beijing.aliyun.com:20021 service-finance-core prod
+service-finance-core Application state is: Running
+service-finance-core_service-finance-core-v1.3.54 Services state is: Running
+/service-finance-core_service-finance-core-v1.3.54_1 Container state is: Running
+192.168.100.6 is not hostslist, please add!
+/service-finance-core_service-finance-core-v1.3.54_2 Container state is: Running
+192.168.100.5 is not hostslist, please add!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] emailext
+Sending email to: wenjun.zhi@kanche.com
+Connection error sending email, retrying once more in 10 seconds...
+Connection error sending email, retrying once more in 10 seconds...
+Failed after second try sending email
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+生成 页面: 2018-4-26 下午02时44分58秒REST APIJenkins ver. 2.46.2

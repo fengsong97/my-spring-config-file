@@ -1,0 +1,266 @@
+Started by user fengsong97
+[Pipeline] node
+Running on slave-maven in /home/jenkins/workspace/qa-service-finance-core
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (checkout)
+[Pipeline] git
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git@gitlab.aishuaiche.com:shuaiche/service-finance-core.git # timeout=10
+Fetching upstream changes from git@gitlab.aishuaiche.com:shuaiche/service-finance-core.git
+ > git --version # timeout=10
+using GIT_SSH to set credentials oschine
+ > git fetch --tags --progress git@gitlab.aishuaiche.com:shuaiche/service-finance-core.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/dev^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/dev^{commit} # timeout=10
+Checking out Revision d936dacd8efe2be5f901c71b52a824e03918876f (refs/remotes/origin/dev)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d936dacd8efe2be5f901c71b52a824e03918876f
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D dev # timeout=10
+ > git checkout -b dev d936dacd8efe2be5f901c71b52a824e03918876f
+Commit message: "云车登录结果日志"
+ > git rev-list afed3fdc8df976883043c4b0acd95f12468cecf9 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (maven build)
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ mvn -Dmaven.test.failure.ignore clean package
+Warning: JAVA_HOME environment variable is not set.
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building service-finance-core 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for com.kanche.authorization:kanche-authorization_2.11:jar:1.1.8 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-clean-plugin:2.6.1:clean (default-clean) @ service-finance-core ---
+[INFO] Deleting /home/jenkins/workspace/qa-service-finance-core/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ service-finance-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ service-finance-core ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 168 source files to /home/jenkins/workspace/qa-service-finance-core/target/classes
+[WARNING] /home/jenkins/workspace/qa-service-finance-core/src/main/java/com/kanche/core/finance/utils/FinanceFieldVerify.java: Some input files use unchecked or unsafe operations.
+[WARNING] /home/jenkins/workspace/qa-service-finance-core/src/main/java/com/kanche/core/finance/utils/FinanceFieldVerify.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ service-finance-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ service-finance-core ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ service-finance-core ---
+[INFO] 
+[INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ service-finance-core ---
+[INFO] Building jar: /home/jenkins/workspace/qa-service-finance-core/target/service-finance-core-1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:1.5.4.RELEASE:repackage (default) @ service-finance-core ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 10.135 s
+[INFO] Finished at: 2018-04-24T16:26:53+08:00
+[INFO] Final Memory: 45M/514M
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (push docker)
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ sudo docker build -t harbor.aishuaiche.com/shuaiche/service-finance-core:1.0.1-qa -f docker/Dockerfile .
+Sending build context to Docker daemon 557.1 kB
+Sending build context to Docker daemon 1.114 MB
+Sending build context to Docker daemon 1.671 MB
+Sending build context to Docker daemon 2.228 MB
+Sending build context to Docker daemon 2.785 MB
+Sending build context to Docker daemon 3.342 MB
+Sending build context to Docker daemon 3.899 MB
+Sending build context to Docker daemon 4.456 MB
+Sending build context to Docker daemon 5.014 MB
+Sending build context to Docker daemon 5.571 MB
+Sending build context to Docker daemon 6.128 MB
+Sending build context to Docker daemon 6.685 MB
+Sending build context to Docker daemon 7.242 MB
+Sending build context to Docker daemon 7.799 MB
+Sending build context to Docker daemon 8.356 MB
+Sending build context to Docker daemon 8.913 MB
+Sending build context to Docker daemon  9.47 MB
+Sending build context to Docker daemon 10.03 MB
+Sending build context to Docker daemon 10.58 MB
+Sending build context to Docker daemon 11.14 MB
+Sending build context to Docker daemon  11.7 MB
+Sending build context to Docker daemon 12.26 MB
+Sending build context to Docker daemon 12.81 MB
+Sending build context to Docker daemon 13.37 MB
+Sending build context to Docker daemon 13.93 MB
+Sending build context to Docker daemon 14.48 MB
+Sending build context to Docker daemon 15.04 MB
+Sending build context to Docker daemon  15.6 MB
+Sending build context to Docker daemon 16.15 MB
+Sending build context to Docker daemon 16.71 MB
+Sending build context to Docker daemon 17.27 MB
+Sending build context to Docker daemon 17.83 MB
+Sending build context to Docker daemon 18.38 MB
+Sending build context to Docker daemon 18.94 MB
+Sending build context to Docker daemon  19.5 MB
+Sending build context to Docker daemon 20.05 MB
+Sending build context to Docker daemon 20.61 MB
+Sending build context to Docker daemon 21.17 MB
+Sending build context to Docker daemon 21.73 MB
+Sending build context to Docker daemon 22.28 MB
+Sending build context to Docker daemon 22.84 MB
+Sending build context to Docker daemon  23.4 MB
+Sending build context to Docker daemon 23.95 MB
+Sending build context to Docker daemon 24.51 MB
+Sending build context to Docker daemon 25.07 MB
+Sending build context to Docker daemon 25.62 MB
+Sending build context to Docker daemon 26.18 MB
+Sending build context to Docker daemon 26.74 MB
+Sending build context to Docker daemon  27.3 MB
+Sending build context to Docker daemon 27.85 MB
+Sending build context to Docker daemon 28.41 MB
+Sending build context to Docker daemon 28.97 MB
+Sending build context to Docker daemon 29.52 MB
+Sending build context to Docker daemon 30.08 MB
+Sending build context to Docker daemon 30.64 MB
+Sending build context to Docker daemon  31.2 MB
+Sending build context to Docker daemon 31.75 MB
+Sending build context to Docker daemon 32.31 MB
+Sending build context to Docker daemon 32.87 MB
+Sending build context to Docker daemon 33.42 MB
+Sending build context to Docker daemon 33.98 MB
+Sending build context to Docker daemon 34.54 MB
+Sending build context to Docker daemon 35.09 MB
+Sending build context to Docker daemon 35.65 MB
+Sending build context to Docker daemon 36.21 MB
+Sending build context to Docker daemon 36.77 MB
+Sending build context to Docker daemon 37.32 MB
+Sending build context to Docker daemon 37.88 MB
+Sending build context to Docker daemon 38.44 MB
+Sending build context to Docker daemon 38.99 MB
+Sending build context to Docker daemon 39.55 MB
+Sending build context to Docker daemon 40.11 MB
+Sending build context to Docker daemon 40.67 MB
+Sending build context to Docker daemon 41.22 MB
+Sending build context to Docker daemon 41.78 MB
+Sending build context to Docker daemon 42.34 MB
+Sending build context to Docker daemon 42.89 MB
+Sending build context to Docker daemon 43.45 MB
+Sending build context to Docker daemon 44.01 MB
+Sending build context to Docker daemon 44.56 MB
+Sending build context to Docker daemon 45.12 MB
+Sending build context to Docker daemon 45.68 MB
+Sending build context to Docker daemon 46.24 MB
+Sending build context to Docker daemon 46.79 MB
+Sending build context to Docker daemon 47.35 MB
+Sending build context to Docker daemon 47.91 MB
+Sending build context to Docker daemon 48.46 MB
+Sending build context to Docker daemon 49.02 MB
+Sending build context to Docker daemon 49.58 MB
+Sending build context to Docker daemon 50.14 MB
+Sending build context to Docker daemon 50.69 MB
+Sending build context to Docker daemon 51.25 MB
+Sending build context to Docker daemon 51.81 MB
+Sending build context to Docker daemon 52.36 MB
+Sending build context to Docker daemon 52.92 MB
+Sending build context to Docker daemon 53.48 MB
+Sending build context to Docker daemon 54.03 MB
+Sending build context to Docker daemon 54.59 MB
+Sending build context to Docker daemon 55.15 MB
+Sending build context to Docker daemon 55.71 MB
+Sending build context to Docker daemon 56.26 MB
+Sending build context to Docker daemon  56.4 MB
+
+Step 1/5 : FROM java:8-jre
+ ---> e44d62cf8862
+Step 2/5 : COPY target/service-finance-core-1.0-SNAPSHOT.jar service-finance-core.jar
+ ---> 014db9c49aa3
+Step 3/5 : COPY docker/start.sh /
+ ---> 5644a85d9943
+Step 4/5 : ENV CONFIG_SERVER_ADDRESS http://config.dev.kkche.cn APPLICATION_NAME service-finance-core TAG dev
+ ---> Running in b95ab4900fa5
+ ---> e9aff81a9569
+Removing intermediate container b95ab4900fa5
+Step 5/5 : CMD sh start.sh $CONFIG_SERVER_ADDRESS $APPLICATION_NAME $TAG
+ ---> Running in d28f4aff6264
+ ---> 59f0beba11c6
+Removing intermediate container d28f4aff6264
+Successfully built 59f0beba11c6
+Successfully tagged harbor.aishuaiche.com/shuaiche/service-finance-core:1.0.1-qa
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ sudo docker push harbor.aishuaiche.com/shuaiche/service-finance-core:1.0.1-qa
+The push refers to a repository [harbor.aishuaiche.com/shuaiche/service-finance-core]
+9f8a0c65d576: Preparing
+fb7f0ba4f895: Preparing
+73ad47d4bc12: Preparing
+c22c27816361: Preparing
+04dba64afa87: Preparing
+500ca2ff7d52: Preparing
+782d5215f910: Preparing
+0eb22bfb707d: Preparing
+a2ae92ffcd29: Preparing
+500ca2ff7d52: Waiting
+782d5215f910: Waiting
+0eb22bfb707d: Waiting
+a2ae92ffcd29: Waiting
+04dba64afa87: Layer already exists
+73ad47d4bc12: Layer already exists
+c22c27816361: Layer already exists
+9f8a0c65d576: Layer already exists
+0eb22bfb707d: Layer already exists
+500ca2ff7d52: Layer already exists
+a2ae92ffcd29: Layer already exists
+782d5215f910: Layer already exists
+fb7f0ba4f895: Pushed
+1.0.1-qa: digest: sha256:3a3272ae576b0bac5036e3afcc841922214c6a7362488f842020a130038d9967 size: 2206
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] node
+Running on slave-python in /home/jenkins/workspace/qa-service-finance-core
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (deploy)
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ python /home/jenkins/script/dev/DelApp.py master3g9.cs-cn-beijing.aliyun.com:20106 service-finance-core qa
+
+200
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ python /home/jenkins/script/dev/service-finance-core.py service-finance-core harbor.aishuaiche.com/shuaiche/service-finance-core:1.0.1-qa qa service-finance-core.local master3g9.cs-cn-beijing.aliyun.com:20106 1 deploy 2 1
+201
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (check deploy)
+[Pipeline] sh
+[qa-service-finance-core] Running shell script
++ python /home/jenkins/script/dev/check_status.py master3g9.cs-cn-beijing.aliyun.com:20106 service-finance-core qa
+service-finance-core Application state is: Running
+service-finance-core_service-finance-core-v1 Services state is: Running
+/service-finance-core_service-finance-core-v1_1 Container state is: Running
+192.168.50.2 is not hostslist, please add!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] emailext
+Sending email to: xianming.chu@kanche.com wenjun.zhi@kanche.com
+Connection error sending email, retrying once more in 10 seconds...
+Connection error sending email, retrying once more in 10 seconds...
+Failed after second try sending email
+[Pipeline] End of Pipeline
+Finished: SUCCESS

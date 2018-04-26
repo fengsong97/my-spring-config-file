@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: my-spring-demo
+  datasource:
+#      url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+#      username: root
+#      password: 12345678
+#      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:h2:file:./h2/mytest
+      username: sa
+      password: sa
+      driver-class-name: org.h2.Driver
+      max-wait: 10000
+      min-idle: 5
+      max-active: 10
+      time-between-eviction-runs-millis: 300000
+      min-evictable-idle-time-millis: 1800000
+  jpa:
+      show_sql : false
+      properties:
+        hibernate.hbm2ddl.auto: update
+        hibernate.sql.show: true
+        hibernate.format_sql : true
+        hibernate.event.merge.entity_copy_observer: allow
+        current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
+        enable_lazy_load_no_trans: false
+        jadira.usertype.autoRegisterUserTypes: true
+
+logging:
+  file: logs/application.log
+  path: .
+  level:
+    root: INFO
+    com.kanche.billing: INFO
+    com.kanche.authentication: ERROR
+    org.springframework.web: ERROR
+    com.github.binarywang.demo.wxpay: DEBUG
+    com.github.binarywang.wxpay: DEBUG
+
+
+
+customVariables:
+  swagger:
+    env: "dev"
+    show: true
