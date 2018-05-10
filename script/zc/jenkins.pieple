@@ -1,0 +1,33 @@
+node {
+   def image_name = "$dockerHub/$project_name/$app_name:$version-$tag"
+   stage('checkout') {
+        git branch: '${branch}', url: '${GIT_HUB}/$project_name/${app_name}.git'
+   }
+   stage('mvnBuild') {
+        sh "mvn -Dmaven.test.failure.ignore clean package"
+   }
+   stage('dockerBuild') {
+        sh "docker build -t $image_name -f docker/Dockerfile ."
+    }
+    stage('dockerPush') {
+        sh "docker push $image_name"
+    }
+    stage('dockerPull') {
+        sshPublisher(publishers: [sshPublisherDesc(
+        configName: "${ssh_url}", 
+        transfers: [sshTransfer(excludes: '',
+        execCommand: '''image_name="$dockerHub/$project_name/$app_name:$version-$tag";
+        
+        if [[ $(docker ps | grep $app_name:$version-$tag | cut -d" " -f1) = "" ]] ; then  
+        echo "没有该镜像的容器正在运行" 
+        else  
+        docker kill $(docker ps | grep $app_name:$version-$tag | cut -d" " -f1) 
+        fi  
+        
+        docker  run  -d -p 8081:8081 $image_name''', 
+        
+        execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, 
+        patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')],
+        usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+    }
+}
